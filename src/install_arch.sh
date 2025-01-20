@@ -1,7 +1,28 @@
 echo "Setting FRENCH keyboard"
 loadkeys fr
 echo "Setting font"
-setfont ter-132b
+setfont ter-c24n
+echo "Setting France Timezone"
+timedatectl set-timezone Europe/Paris
+echo "Creating disk"
+yes | pvcreate /dev/sda
+yes | vgcreate my_vg /dev/sda
+lvcreate -n root -L 15G my_vg
+lvcreate -n home -L 5G my_vg
+lvcreate -n boot -L 400M my_vg
+lvcreate -n swap -L 500M my_vg
+mkfs.ext4 /dev/my_vg/root
+mkfs.ext4 /dev/my_vg/home
+mkfs.ext4 /dev/my_vg/boot
+mkswap /dev/my_vg/swap
+echo "Mount disk"
+mount /dev/my_vg/root /mnt
+mkdir /mnt/home
+mount /dev/my_vg/home /mnt/home
+mkdir /mnt/boot
+mount /dev/my_vg/boot /mnt/boot
+swapon /dev/my_vg/swap
+
 echo "Finished"
 
 
