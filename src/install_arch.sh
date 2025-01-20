@@ -4,3 +4,4 @@ echo "Setting font"
 setfont ter-132b
 echo "Finished"
 
+
