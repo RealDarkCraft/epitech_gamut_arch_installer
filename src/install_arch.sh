@@ -1,4 +1,4 @@
-echo "Setting AZERTY keyboard"
+echo "Setting FRENCH keyboard"
 loadkeys fr
 echo "Setting font"
 setfont ter-132b
