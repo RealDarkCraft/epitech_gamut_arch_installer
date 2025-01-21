@@ -34,16 +34,18 @@ mkfs.fat -F 32 /dev/sda4
 mkswap /dev/my_vg/swap
 echo "Mount disk"
 mount /dev/my_vg/root /mnt
-mkdir /mnt/home
-mount /dev/my_vg/home /mnt/home
-mkdir /mnt/esp
-mount /dev/sda4 /mnt/esp
-mkdir /mnt/boot
-mount /dev/my_vg/boot /mnt/boot
+mount --mkdir /dev/my_vg/home /mnt/home
+mount --mkdir /dev/sda4 /mnt/esp
+mount --mkdir /dev/my_vg/boot /mnt/boot
 swapon /dev/my_vg/swap
 yes | pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
+pacman -S lvm2
+pacman -S emacs
+pacman -S man-db man-pages texinfo
+pacman -S amd-ucode
+
 hwclock --systohc
 locale-gen
 echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
@@ -54,6 +56,12 @@ yes | pacman -S grub
 yes | pacman -S efibootmgr
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 grub-mkconfig -o /boot/grub/grub.cfg
+
+groupadd Hogwarts
+groupadd asso
+groupadd managers
+useradd  turban -g asso -g Hogwarts
+
 echo "yes | pacman -S sddm konsole plasma"
 umount -R /mnt
 exit
