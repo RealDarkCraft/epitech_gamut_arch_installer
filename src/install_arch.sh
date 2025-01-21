@@ -4,6 +4,7 @@ echo "Setting font"
 setfont ter-c24n
 echo "Setting France Timezone"
 timedatectl set-timezone Europe/Paris
+sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
 echo "Creating disk"
 
 echo -e "n\n\
