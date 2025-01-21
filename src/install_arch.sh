@@ -42,6 +42,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt <<EOF
 sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
 pacman -S --noconfirm lvm2
+pacman -S --noconfirm emacs
 pacman -S --noconfirm man-db man-pages texinfo
 pacman -S --noconfirm amd-ucode
 hwclock --systohc
@@ -59,7 +60,7 @@ groupadd asso
 groupadd managers
 useradd  turban -g asso -g Hogwarts
 
-echo "pacman -S --noconfirm sddm konsole plasma"
+pacman -S --noconfirm sddm konsole plasma
 
 exit
 EOF
