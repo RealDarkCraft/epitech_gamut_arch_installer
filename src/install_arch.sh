@@ -4,7 +4,6 @@ echo "Setting font"
 setfont ter-c24n
 echo "Setting France Timezone"
 timedatectl set-timezone Europe/Paris
-sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
 echo "Creating disk"
 
 echo -e "n\n\
@@ -40,12 +39,12 @@ mount --mkdir /dev/my_vg/boot /mnt/boot
 swapon /dev/my_vg/swap
 yes | pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
+arch-chroot /mnt <<EOF
+sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
 pacman -S lvm2
 pacman -S emacs
 pacman -S man-db man-pages texinfo
 pacman -S amd-ucode
-
 hwclock --systohc
 locale-gen
 echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
@@ -56,15 +55,16 @@ yes | pacman -S grub
 yes | pacman -S efibootmgr
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 grub-mkconfig -o /boot/grub/grub.cfg
-
 groupadd Hogwarts
 groupadd asso
 groupadd managers
 useradd  turban -g asso -g Hogwarts
 
 echo "yes | pacman -S sddm konsole plasma"
-umount -R /mnt
+
 exit
+EOF
+umount -R /mnt
 reboot
 
 echo "Finished"
