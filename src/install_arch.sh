@@ -22,7 +22,13 @@ mount /dev/my_vg/home /mnt/home
 mkdir /mnt/boot
 mount /dev/my_vg/boot /mnt/boot
 swapon /dev/my_vg/swap
-
+yes | pacstrap -K /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+hwclock --systohc
+locale-gen
+echo "LANG=fr_FR.UTF-8" > etc/locale.conf
+echo "KEYMAP=fr" > /etc/vconsole.conf
+mkinitcpio -P
+echo "root:admin" | chpasswd
 echo "Finished"
-
-

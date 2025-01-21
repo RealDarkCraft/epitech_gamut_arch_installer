@@ -1,1 +1,0 @@
-loadkeys fr
