@@ -20,7 +20,6 @@ p\n\
 +21G\n\
 w" | fdisk /dev/sda
 
-
 yes | pvcreate /dev/sda1
 yes | vgcreate my_vg /dev/sda1
 lvcreate -n root -L 15G my_vg
@@ -46,17 +45,17 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 hwclock --systohc
 locale-gen
-echo "LANG=fr_FR.UTF-8" > etc/locale.conf
+echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 mkinitcpio -P
 echo "root:admin" | chpasswd
 yes | pacman -S grub
 yes | pacman -S efibootmgr
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
-grub-mkconfig -o /mnt/boot/grub/grub.cfg
-yes | pacman -S sddm konsole plasma
-exit
+grub-mkconfig -o /boot/grub/grub.cfg
+echo "yes | pacman -S sddm konsole plasma"
 umount -R /mnt
+exit
 reboot
 
 echo "Finished"
