@@ -41,18 +41,17 @@ yes | pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt <<EOF
 sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
-pacman -S lvm2
-pacman -S emacs
-pacman -S man-db man-pages texinfo
-pacman -S amd-ucode
+pacman -S --noconfirm lvm2
+pacman -S --noconfirm man-db man-pages texinfo
+pacman -S --noconfirm amd-ucode
 hwclock --systohc
 locale-gen
 echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 mkinitcpio -P
 echo "root:admin" | chpasswd
-yes | pacman -S grub
-yes | pacman -S efibootmgr
+pacman -S --noconfirm grub
+pacman -S --noconfirm efibootmgr
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 grub-mkconfig -o /boot/grub/grub.cfg
 groupadd Hogwarts
@@ -60,7 +59,7 @@ groupadd asso
 groupadd managers
 useradd  turban -g asso -g Hogwarts
 
-echo "yes | pacman -S sddm konsole plasma"
+echo "pacman -S --noconfirm sddm konsole plasma"
 
 exit
 EOF
