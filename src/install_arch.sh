@@ -22,7 +22,7 @@ mount /dev/my_vg/home /mnt/home
 mkdir /mnt/boot
 mount /dev/my_vg/boot /mnt/boot
 swapon /dev/my_vg/swap
-yes | pacstrap -K /mnt base linux linux-firmware
+
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 hwclock --systohc
@@ -31,4 +31,14 @@ echo "LANG=fr_FR.UTF-8" > etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 mkinitcpio -P
 echo "root:admin" | chpasswd
+yes | pacman -S grub
+yes | pacman -S efibootmgr
+grub-install --target=i386-pc /dev/sda
+grub-mkconfig -o /mnt/boot/grub/grub.cfg
+exit
+umount -R /mnt
+reboot
+
 echo "Finished"
+
+
