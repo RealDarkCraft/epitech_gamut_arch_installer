@@ -20,7 +20,7 @@ p\n\
 +21G\n\
 w" | fdisk /dev/sda
 
-
+echo "Finished"
 echo "Finished"
 
 
