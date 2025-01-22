@@ -59,6 +59,8 @@ groupadd Hogwarts
 groupadd asso
 groupadd managers
 useradd  turban -g asso -g Hogwarts
+echo "turban:EscapeFromGamut" | chpasswd
+
 
 pacman -S --noconfirm sddm konsole plasma
 systemctl enable sddm
