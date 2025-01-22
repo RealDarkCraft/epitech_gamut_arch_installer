@@ -60,7 +60,13 @@ groupadd asso
 groupadd managers
 useradd  turban -g asso -g Hogwarts
 
-pacman -S --noconfirm sddm konsole plasma
+echo "pacman -S --noconfirm sddm konsole plasma"
+pacman -S --noconfirm gnome
+systemctl enable gdm.service --force
+systemctl disable sddm.service --force
+systemctl start gdm.service
+pacman -S --noconfirm gnome-extra
+
 
 exit
 EOF
