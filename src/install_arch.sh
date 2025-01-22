@@ -65,7 +65,7 @@ echo "turban:gamut" | chpasswd
 
 pacman -S --noconfirm sddm konsole plasma
 pacman -S --noconfirm kde-applications
-echo "pacman -S --noconfirm plasma-desktop"
+pacamn -S --noconfirm sddm-kcm
 systemctl enable sddm
 systemctl start sddm
 exit
