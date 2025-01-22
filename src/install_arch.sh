@@ -1,5 +1,6 @@
 echo "Setting FRENCH keyboard"
 loadkeys fr
+pacman -Sy
 echo "Setting font"
 setfont ter-c24n
 echo "Setting France Timezone"
@@ -62,7 +63,9 @@ useradd  turban -g asso -g Hogwarts
 echo "turban:gamut" | chpasswd
 
 
-pacman -S --noconfirm sddm konsole plasma kde-applications plasma-extra
+pacman -S --noconfirm sddm konsole plasma
+pacman -S --noconfirm kde-applications
+pacman -S --noconfirm plasma-desktop
 systemctl enable sddm
 systemctl start sddm
 exit
