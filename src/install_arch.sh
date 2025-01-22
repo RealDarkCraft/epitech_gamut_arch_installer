@@ -59,7 +59,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 groupadd Hogwarts
 groupadd asso
 groupadd managers
-useradd  turban -g asso -g Hogwarts
+useradd -m -g asso -G Hogwarts turban
 echo "turban:gamut" | chpasswd
 
 
