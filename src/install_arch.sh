@@ -19,7 +19,23 @@ p\n\
 1\n\
 \n\
 +21G\n\
+n\n\
+p\n\
+2\n\
+\n\
++35G\n\
 w" | fdisk /dev/sda
+yes | pvcreate /dev/sda2
+yes | vgcreate my_vg2 /dev/sda2
+lvcreate -n root -L 25G my_vg2
+lvcreate -n home -L 5G my_vg2
+lvcreate -n boot -L 500M my_vg2
+lvcreate -n swap -L 500M my_vg2
+mkfs.ext4 /dev/my_vg2/root
+mkfs.ext4 /dev/my_vg2/home
+mkfs.ext4 /dev/my_vg2/boot
+mkswap /dev/my_vg2/swap
+
 
 yes | pvcreate /dev/sda1
 yes | vgcreate my_vg /dev/sda1
@@ -54,6 +70,10 @@ mkinitcpio -P
 echo "root:admin" | chpasswd
 pacman -S --noconfirm grub
 pacman -S --noconfirm efibootmgr
+sed -i 'GRUB_PRELOAD_MODULES="/s/.$/ lvm"/' /etc/default/grub
+sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
+pacman -S --noconfirm os-probber
+
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 grub-mkconfig -o /boot/grub/grub.cfg
 groupadd Hogwarts
@@ -74,11 +94,11 @@ systemctl enable NetworkManager
 systemctl start NetworkManager
 nmcli connection up "Wired connection 1"
 
+
 exit
 EOF
 umount -R /mnt
 reboot
-
 echo "Finished"
 
 
