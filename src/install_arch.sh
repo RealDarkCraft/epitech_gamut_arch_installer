@@ -60,6 +60,8 @@ groupadd Hogwarts
 groupadd asso
 groupadd managers
 useradd -m -g asso -G Hogwarts turban
+useradd -m -g managers -G Hogwarts dumbleddore
+echo "dumbleddore:gamut" | chpasswd
 echo "turban:gamut" | chpasswd
 
 
@@ -68,6 +70,10 @@ pacman -S --noconfirm kde-applications
 pacamn -S --noconfirm sddm-kcm
 systemctl enable sddm
 systemctl start sddm
+systemctl enable NetworkManager
+systemctl start NetworkManager
+nmcli connection up "Wired connection 1"
+
 exit
 EOF
 umount -R /mnt
