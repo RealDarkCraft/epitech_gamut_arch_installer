@@ -70,11 +70,10 @@ mkinitcpio -P
 echo "root:admin" | chpasswd
 pacman -S --noconfirm grub
 pacman -S --noconfirm efibootmgr
+pacman -S --noconfirm os-prober
+grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 sed -i 'GRUB_PRELOAD_MODULES="/s/.$/ lvm"/' /etc/default/grub
 sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
-pacman -S --noconfirm os-probber
-
-grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
 grub-mkconfig -o /boot/grub/grub.cfg
 groupadd Hogwarts
 groupadd asso
